@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Registration Page</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{plugins/fontawesome-free/css/all.min.css}">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" th:href="@{plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{dist/css/adminlte.min.css}">
+</head>
+<body class="hold-transition register-page">
+<div class="register-box">
+    <div>
+        <img class="animation__shake" src="img/santamaria.png" height="100" width="361">
+    </div>
+
+    <div class="card">
+        <div class="card-body register-card-body">
+            <div th:if=${param.exito}>
+                <div class="alert alert-info">Se ha registrado exitosamente a
+                    la aplicación</div>
+            </div>
+
+            <p class="login-box-msg">Registrar nuevo usuario</p>
+
+            <form th:action="@{/registro}" method="post" th:object="${usuario}">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control form-control-sm" id="nombre" th:field="*{nombre}" placeholder="Nombres" required autofocus="autofocus">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control form-control-sm" id="apepaterno" th:field="*{apepaterno}" placeholder="Apellido paterno" required autofocus="autofocus">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control form-control-sm" id="apematerno" th:field="*{apematerno}" placeholder="Apellido materno" required autofocus="autofocus">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control form-control-sm" id="email" th:field="*{email}" placeholder="Email" required autofocus="autofocus">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control form-control-sm" id="password" th:field="*{password}" placeholder="Password" required autofocus="autofocus">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <select id="idRol" th:field="*{idRol}" class="form-control custom-select custom-select-sm">
+                        <option value="" >Seleccione</option>
+                        <option th:each="rol : ${roles}" th:text="${rol.nombre}" th:value="${rol.id}"></option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <select id="idAgencia" th:field="*{idAgencia}" class="form-control custom-select custom-select-sm">
+                        <option value="" >Seleccione</option>
+                        <option th:each="agencia : ${agencias}" th:text="${agencia.nomAgencia}" th:value="${agencia.id}"></option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <select id="idOficina" th:field="*{idOficina}" class="form-control custom-select custom-select-sm">
+                        <option value="" >Seleccione</option>
+                        <option th:each="oficina : ${oficinas}" th:text="${oficina.nomOficina}" th:value="${oficina.id}"></option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="agreeTerms" name="terms" value="agree" required autofocus="autofocus">
+                            <label for="agreeTerms">
+                                Estoy de acuerdo con los <a href="#">términos</a>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+
+            <a th:href="@{/}" class="text-center">Volver al panel de gestión de reclamos</a>
+        </div>
+        <!-- /.form-box -->
+    </div><!-- /.card -->
+</div>
+<!-- /.register-box -->
+
+<!-- jQuery -->
+<script th:src="@{plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{dist/js/adminlte.min.js}"></script>
+</body>
+</html>

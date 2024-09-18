@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3" layout:decorate="~{template}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reclamos | View</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <div th:replace="template.html :: common-css"></div>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Preloader -->
+<!--    <div class="preloader flex-column justify-content-center align-items-center">-->
+<!--        <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">-->
+<!--    </div>-->
+
+    <!-- Herencia header -->
+
+    <div th:include="template.html::header">
+
+    </div>
+
+    <!-- Main Sidebar Container -->
+    <div th:include="template::navbar">
+
+    </div>
+
+    <!-- Cabecera contenido principal -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Reclamo</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                            <li class="breadcrumb-item active">Reclamos</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="col-md-9">
+                    <div class="card card-default">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Detalle de Reclamo</h3>
+                            </div>
+                            <div class="card-body">
+                                <div>
+                                    <div>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><b>Id Reclamo:</b></td>
+                                                    <td th:text="${reclamo.id}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Estado de reclamo:</b></td>
+                                                    <td>
+                                                        <div th:if="*{reclamo.estado.name() eq 'PEN'}">
+                                                            Pendiente
+                                                        </div>
+                                                        <div th:if="*{reclamo.estado.name() eq 'ACT'}">
+                                                            Atendido
+                                                        </div>
+                                                        <div th:if="*{reclamo.estado.name() eq 'PROS'}">
+                                                            En proceso
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="card card-default">
+                                    <div class="card-header">
+                                        <h3 class="card-title">IDENTIFICACIÓN DEL SOCIO/USUARIO</h3>
+
+                                        <div class="card-tools">
+                                            ¿SOCIO?
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <!--Aqui va all-->
+                                        <div class="row">
+                                            <table width="100%">
+                                                <thead>
+                                                <tr>
+                                                    <th style="width: 40px"></th>
+                                                    <th style="width: 30px"></th>
+                                                    <th style="width: 15px"></th>
+                                                    <th style="width: 15px"></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td><b>Apellidos y Nombres/Razón Social: </b></td>
+                                                    <td th:text="${reclamo.usuario.nombre}"></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Documento: </b></td>
+                                                    <td th:text="${reclamo.usuario.tipoDoc.nombreDoc} + ' ' + ${reclamo.usuario.nroDoc}"></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Dirección: </b></td>
+                                                    <td th:text="${reclamo.usuario.direccion}"></td>
+                                                    <td><b>Referencia: </b></td>
+                                                    <td th:text="${reclamo.usuario.referencia}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Dis/Prov/Dpto: : </b></td>
+                                                    <td th:text="${reclamo.usuario.departamento.nomDepartamento} + '/' + ${reclamo.usuario.provincia.nomProvincia} + '/' + ${reclamo.usuario.distrito.nomDistrito}"></td>
+                                                    <td><b>Ubicación Geografica/Dpto-Prov: </b></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Teléfono/Celular: : </b></td>
+                                                    <td th:text="${reclamo.usuario.celular} + '/' + ${reclamo.usuario.telefono}"></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Correo Electrónico: </b></td>
+                                                    <td th:text="${reclamo.usuario.email}"></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>REPRESENTANTE DEL SOCIO/USUARIO:</b></td>
+                                                    <td th:text="${reclamo.representante?.nombres}"></td>
+                                                    <td><b>Documento: </b></td>
+                                                    <td th:text="${reclamo.representante?.tipoDoc?.nombreDoc} + ' ' + ${reclamo.representante?.nroDoc}"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="card card-default">
+                                    <div class="card-header">
+                                        <h3 class="card-title">INFORMACIÓN DEL RECLAMO</h3>
+
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <!--Aqui va all-->
+                                        <div class="row">
+                                            <table width="100%">
+                                                <tbody>
+                                                <tr>
+                                                    <td><b>Fecha de Presentación: </b></td>
+                                                    <td th:text="${#dates.format(reclamo.fecPresentacion, 'dd/MM/yyyy')}"></td>
+                                                    <td><b>Fecha de Vencimiento: </b></td>
+                                                    <td th:text="${#dates.format(reclamo.fecVencimiento, 'dd/MM/yyyy')}"></td>
+                                                    <td><b>Canal de Presentación: </b></td>
+                                                    <td th:text="${reclamo.canalPres.nombre}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Medio de Registro: </b></td>
+                                                    <td th:text="${reclamo.medio.nombre}"></td>
+                                                    <td><b>N° HR: </b></td>
+                                                    <td th:text="${reclamo.nroHr}"></td>
+                                                    <td><b>Canal de Rpta. elegido: </b></td>
+                                                    <td></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <b>Detalle de Reclamo: </b>
+                                            <textarea disabled class="form-control" rows="4" th:text="${reclamo.detalleReg}">
+                                            </textarea>
+                                        </div>
+                                        <div align="right">
+                                            <table>
+                                                <tbody>
+                                                <tr>
+                                                    <td><b>Reportado Por: </b></td>
+                                                    <td th:text="${reclamo.usuarioSis.nombre} + ' ' +${reclamo.usuarioSis.apePaterno} + ' ' + ${reclamo.usuarioSis.apeMaterno}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Fecha de Reporte: </b></td>
+                                                    <td th:text="${#dates.format(reclamo.fecRegistro, 'dd/MM/yyyy')}"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card card-default">
+                                    <div class="card-header">
+                                        <h3 class="card-title">RESUMEN DEL RECLAMO</h3>
+
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <!--Aqui va all-->
+                                        <div class="row">
+                                            <b>Resumen de Reclamo: </b>
+                                            <textarea disabled class="form-control" rows="2" th:text="${resumen?.resumenReclamo}">
+                                            </textarea>
+                                        </div>
+                                        <div class="row">
+                                            <table width="100%">
+                                                <tbody>
+                                                <tr>
+                                                    <td><b>Objeto de Reclamo: </b></td>
+                                                    <td th:text="${resumen?.objeto?.nombre}"></td>
+                                                    <td><b>Motivo de reclamo: </b></td>
+                                                    <td th:text="${resumen?.motivo?.nombre}"></td>
+                                                    <td><b>Revision: </b></td>
+                                                    <td th:text="${resumen?.nroRevision}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Fecha de notificación: </b></td>
+                                                    <td th:text="${#dates.format(resumen?.fecNotificacion, 'dd/MM/yyyy')}"></td>
+                                                    <td><b>Canal de respuesta: </b></td>
+                                                    <td th:text="${resumen?.canalRpta?.nombre}"></td>
+                                                    <td><b>Tiempo de absolución: </b></td>
+                                                    <td th:text="${resumen?.tiempoAbsolucion}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Atendido a favor de: </b></td>
+                                                    <td th:text="${resumen?.atendidoAFavor}"></td>
+                                                    <td><b></b></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <b>Observaciones: </b>
+                                            <textarea disabled class="form-control" rows="2" th:text="${resumen?.observaciones}">
+                                            </textarea>
+                                            <b>Medidas correctivas/Acciones adoptadas: </b>
+                                            <textarea disabled class="form-control" rows="2" th:text="${resumen?.medidasCorrectivas}">
+                                            </textarea>
+                                            <b>Oportunidades de mejora: </b>
+                                            <textarea disabled class="form-control" rows="2" th:text="${resumen?.oportunidadesMejora}">
+                                            </textarea>
+                                            <b>Oficina/Colaborador que debe considerar oportunidad de mejora:</b>
+                                            <textarea disabled class="form-control" rows="2" th:text="${resumen?.destinoMejora}">
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- herencia footer -->
+    <div th:include="template.html::footer"></div>
+
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+<div th:replace="template.html::common-footer"></div>
+</body>
+</html>

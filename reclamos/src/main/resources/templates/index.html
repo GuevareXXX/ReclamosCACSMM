@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reclamos | Dashboard</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{plugins/fontawesome-free/css/all.min.css}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" th:href="@{plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
+  <!-- iCheck -->
+  <link rel="stylesheet" th:href="@{plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+  <!-- JQVMap -->
+  <link rel="stylesheet" th:href="@{plugins/jqvmap/jqvmap.min.css}">
+  <!-- Theme style -->
+  <link rel="stylesheet" th:href="@{dist/css/adminlte.min.css}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" th:href="@{plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" th:href="@{plugins/daterangepicker/daterangepicker.css}">
+  <!-- summernote -->
+  <link rel="stylesheet" th:href="@{plugins/summernote/summernote-bs4.min.css}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  <!-- Preloader -->
+  <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__shake" src="img/smm.png" alt="AdminLTELogo" height="60" width="60">
+  </div>
+
+  <!-- Herencia header -->
+  <div th:include="template.html::header">
+
+  </div>
+
+  <!-- Main Sidebar Container -->
+  <div th:include="template::navbar">
+
+  </div>
+
+  <!-- Cabecera contenido principal -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Dashboard</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+              <li class="breadcrumb-item active">Reclamos</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div th:if=${param.exitoresumen}>
+          <div class="alert alert-info">Se registró el resumen del reclamo correctamente</div>
+        </div>
+        <div th:if=${param.exitoobs}>
+          <div class="alert alert-info">Se registró las observaciones el reclamo correctamente</div>
+        </div>
+        <div class="card card-default">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Panel de Control</h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-8 table-responsive">
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td><b>Agencia: </b></td>
+                        <td th:text="${usuariosis.agencia.nomAgencia} + ' - ' + ${usuariosis.oficina.nomOficina}"></td>
+                      </tr>
+                      <tr>
+                        <td><b>Nombres: </b></td>
+                        <td th:text="${usuariosis.nombre} + ' ' + ${usuariosis.apePaterno} + ' ' + ${usuariosis.apeMaterno}"></td>
+                      </tr>
+                      <tr>
+                        <td><b>Celular: </b></td>
+                        <td>970575557</td>
+                      </tr>
+                      <tr>
+                        <td><b>Puesto: </b></td>
+                        <td th:text="${usuariosis.rol.nombre}"></td>
+                      </tr>
+                      <tr>
+                        <td><b>Correo: </b></td>
+                        <td th:text="${usuariosis.email}"></td>
+                      </tr>
+                      <tr>
+                        <td><b>Fecha y Hora: </b></td>
+                        <td>
+                          <div id="current_date">
+                            <script>
+                              const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                              document.getElementById("current_date").innerHTML = new Date().toLocaleDateString('es-ES', options);
+                            </script>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-4" sec:authorize="hasAuthority('ROL_ADMIN')">
+                  <form th:action="@{/}" method="get">
+                    <table>
+                      <tbody>
+                      <tr>
+                        <td>
+                          <select id="cp" name="cp" class="form-control custom-select custom-select-sm">
+                            <option value="" >Seleccione Canal de Presentacion</option>
+                            <option th:each="canal : ${canalespres}" th:text="${canal.nombre}" th:value="${canal.id}"></option>
+                          </select>
+                        </td>
+                        <td>
+                          <button type="submit" class="btn btn-success btn-sm">Buscar</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <select id="ag" name="ag" class="form-control custom-select custom-select-sm">
+                            <option value="" >Seleccione Agencia</option>
+                            <option th:each="agencia : ${agencias}" th:text="${agencia.nomAgencia}" th:value="${agencia.id}"></option>
+                          </select>
+                        </td>
+                        <td>
+                          <button type="submit" class="btn btn-success btn-sm">Buscar</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <select id="mr" name="mr" class="form-control custom-select custom-select-sm">
+                            <option value="" >Seleccione Medio de Registro</option>
+                            <option th:each="medio : ${medios}" th:text="${medio.nombre}" th:value="${medio.id}"></option>
+                          </select>
+                        </td>
+                        <td>
+                          <button type="submit" class="btn btn-success btn-sm">Buscar</button>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </form>
+                </div>
+                <div class="col-md-4" sec:authorize="hasAuthority('ROL_USER')">
+                  <form th:action="@{/}" method="get">
+                    <table>
+                      <tbody>
+                      <tr>
+                        <td>
+                          <input type="text" id="nombre" name="nombre" th:value="${nombre}" class="form-control form-control-sm" placeholder="Escriba el nombre del socio">
+                        </td>
+                        <td>
+                          <button type="submit" class="btn btn-success btn-sm">Buscar</button>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </form>
+                </div>
+                <div class="col-md-4" sec:authorize="hasAuthority('ROL_COORDINADOR')">
+                  <form th:action="@{/}" method="get">
+                    <table>
+                      <tbody>
+                      <tr>
+                        <td>
+                          <input type="text" id="nombre" name="nombre" th:value="${nombre}" class="form-control form-control-sm" placeholder="Escriba el nombre del socio">
+                        </td>
+                        <td>
+                          <button type="submit" class="btn btn-success btn-sm">Buscar</button>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </form>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Canal de Pres.</th>
+                      <th>Medio de Reg.</th>
+                      <th>Nro. HR</th>
+                      <th>Nombre del Reclamante</th>
+                      <th>Agencia registro</th>
+                      <th>Fecha de Reg.</th>
+                      <!--<th>Fecha de Venc.</th>-->
+                      <th>Agencia/Oficina Atención</th>
+                      <th>Fecha de Rpta.</th>
+                      <th>Dias Trans.</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="reclamo, index : ${reclamos}">
+                      <td th:text="${reclamo.id}"></td>
+                      <td th:text="${reclamo.canalPres.nombre}"></td>
+                      <td th:text="${reclamo.medio.nombre}"></td>
+                      <td th:text="${reclamo.nroHr}"></td>
+                      <td th:text="${reclamo.usuario.nombre}"></td>
+                      <td th:text="${reclamo.agencia.nomAgencia}"></td>
+                      <td th:text="${#dates.format(reclamo.fecPresentacion, 'dd/MM/yyyy')}"></td>
+                      <!--<td th:text="${#dates.format(reclamo.fecVencimiento, 'dd/MM/yyyy')}"></td>-->
+                      <td th:text="${agenciaOficina[__${index.index}__]}"></td>
+                      <td th:text="${#dates.format(reclamo.fecRpta, 'dd/MM/yyyy')}"></td>
+                      <td th:text="${diferenciasDias[__${index.index}__]}"></td>
+                      <td>
+                        <div class="badge bg-warning" th:if="*{reclamo.estado.name() eq 'PEN'}">
+                          Pendiente
+                        </div>
+                        <div class="badge bg-success" th:if="*{reclamo.estado.name() eq 'ACT'}">
+                          Atendido
+                        </div>
+                        <div class="badge bg-primary" th:if="*{reclamo.estado.name() eq 'PROS'}">
+                          En proceso
+                        </div>
+                      </td>
+                      <td>
+                        <div class="row">
+                          <a th:href="@{'/reclamo-view-' + ${reclamo.id}}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>&nbsp;
+                          <a th:href="@{'/reclamo-edit-' + ${reclamo.id}}" class="btn btn-success btn-sm" sec:authorize="hasAuthority('ROL_ADMIN')" th:classappend="*{reclamo.estado.name() eq 'PROS' or reclamo.estado.name() eq 'ACT' ? 'disabled' : ''}"><i class="fa fa-edit"></i></a>
+                          <a th:href="@{'/reclamo-edit-obs-' + ${reclamo.id}}" class="btn btn-success btn-sm" sec:authorize="hasAuthority('ROL_COORDINADOR')" th:classappend="*{reclamo.estado.name() eq 'ACT' ? 'disabled' : ''}"><i class="fa fa-edit"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- herencia footer -->
+  <div th:include="template.html::footer">
+
+  </div>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script th:src="@{plugins/jquery/jquery.min.js}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script th:src="@{plugins/jquery-ui/jquery-ui.min.js}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script th:src="@{plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- ChartJS -->
+<script th:src="@{plugins/chart.js/Chart.min.js}"></script>
+<!-- Sparkline -->
+<script th:src="@{plugins/sparklines/sparkline.js}"></script>
+<!-- JQVMap -->
+<script th:src="@{plugins/jqvmap/jquery.vmap.min.js}"></script>
+<script th:src="@{plugins/jqvmap/maps/jquery.vmap.usa.js}"></script>
+<!-- jQuery Knob Chart -->
+<script th:src="@{plugins/jquery-knob/jquery.knob.min.js}"></script>
+<!-- daterangepicker -->
+<script th:src="@{plugins/moment/moment.min.js}"></script>
+<script th:src="@{plugins/daterangepicker/daterangepicker.js}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script th:src="@{plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"></script>
+<!-- Summernote -->
+<script th:src="@{plugins/summernote/summernote-bs4.min.js}"></script>
+<!-- overlayScrollbars -->
+<script th:src="@{plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{dist/js/adminlte.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{dist/js/demo.js}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script th:src="@{dist/js/pages/dashboard.js}"></script>
+</body>
+</html>
